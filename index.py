@@ -86,6 +86,7 @@ while True:
         # Sub Step C, D
         module_keyboard_type.type_string('Taking picture in:  3, 2...')
         module_keyboard_type.enter()
+        time.sleep(2)
         module_keyboard_type.type_string('Smile!')
         module_keyboard_type.enter()
         module_keyboard_type.enter()
