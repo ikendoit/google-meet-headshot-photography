@@ -18,6 +18,7 @@ import module_mouse_coordinate_capture
 import module_mouse_click
 import module_screen_take_photo
 import module_screen_read_photo
+import module_screen_crop_and_save_photo
 import module_keyboard_type
 
 
@@ -25,21 +26,29 @@ print("----- WELCOME-----")
 
 print("First, please click on icon of 'Chat' Tab title header")
 x_chat_title, y_chat_title = module_mouse_coordinate_capture.capture_coordinate()
-print("detected, ", x_chat_title, y_chat_title)
+print("  detected, ", x_chat_title, y_chat_title)
 
 print("Second, please click on Chat Box")
 x_chat_box, y_chat_box = module_mouse_coordinate_capture.capture_coordinate()
-print("detected, ", x_chat_box, y_chat_box)
+print("  detected, ", x_chat_box, y_chat_box)
 
 print("Please click on icon of 'People (..)' Tab title header")
 x_people_title, y_people_title = module_mouse_coordinate_capture.capture_coordinate()
-print("detected, ", x_people_title, y_people_title)
+print("  detected, ", x_people_title, y_people_title)
 
 print("Please click on second line of guest list, where the guest's icon will be at")
 x_guest_name, y_guest_name = module_mouse_coordinate_capture.capture_coordinate()
-print("detected, ", x_guest_name, y_guest_name)
+print("  detected, ", x_guest_name, y_guest_name)
 
-print("Finally, Please Click back to message tab")
+print("Please click on Top Left Of guest's Headshot Photo on Screen")
+x_top_left_headshot, y_top_left_headshot = module_mouse_coordinate_capture.capture_coordinate()
+print("  detected, ", x_top_left_headshot, y_top_left_headshot)
+
+print("Please click on Bottom Right Of guest's Headshot Photo on Screen")
+x_bottom_right_headshot, y_bottom_right_headshot = module_mouse_coordinate_capture.capture_coordinate()
+print("  detected, ", x_bottom_right_headshot, y_bottom_right_headshot)
+
+
 
 
 print("----- CONFIGURATION COMPLETED -----")
@@ -54,8 +63,8 @@ print("----- TAKING PHOTOS -----")
 #  2.               Parse Name
 #  2.               Print "Taking Picture in 3.."
 #  2.               Print "Smile"
-#  2.               Save file captured in step (1) as {guest-name}.png
-#  2.               Print "Done, Thank you 'name', Slacked. Please leave!"
+#  2.               Save file captured in step (1), cropped with top-left and bottom_right in config-gathering, and save as {guest-name}.png
+#  2.               Print "Done, Thank you 'name', Please leave!"
 #  2.               Click on People Tab
 #  2. ElIf 1 people, Pass
 #  2. Sleep 3 second
@@ -81,19 +90,20 @@ while True:
         print('Handling : ', text_guest_name)
 
         module_mouse_click.click(x_chat_title, y_chat_title, True)
-        time.sleep(0.5)
+        time.sleep(1)
 
         # Sub Step C, D
         module_keyboard_type.type_string('Taking picture in:  3, 2...')
         module_keyboard_type.enter()
-        time.sleep(2)
+        time.sleep(3)
         module_keyboard_type.type_string('Smile!')
         module_keyboard_type.enter()
         module_keyboard_type.enter()
+        time.sleep(1)
 
         # Sub Step E: Save this image
         guest_file_name = './photos/{}__{}.png'.format(text_guest_name, str(calendar.timegm(time.gmtime())));
-        os.rename(scout_file_name, guest_file_name)
+        module_screen_crop_and_save_photo.crop_and_save(scout_file_name, guest_file_name, x_top_left_headshot, y_top_left_headshot, x_bottom_right_headshot, y_bottom_right_headshot);
 
 
         # Sub Step F: Kick them out
@@ -101,8 +111,11 @@ while True:
         module_keyboard_type.enter()
         module_keyboard_type.enter()
 
+        time.sleep(5)
+
         # Sub Step G: Click on People Tab
         module_mouse_click.click(x_people_title, y_people_title, True)
+
 
     elif count_human > 2:
         print("TOO MANY PEOPLE")
