@@ -5,7 +5,10 @@ A Bot that captures when new people come in Google Meet room, take their photo, 
 ## Usage:
 ```
   pip3 install -r requirement.txt
+  mkdir photos/
+
   # Have google-meet opened in another screen, please have right-side menu open too.
   python3 index.py
+
   # Follow instruction of the terminal output
 ```
